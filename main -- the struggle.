@@ -1,0 +1,474 @@
+#How and the heck do get around these silly Discord TOS -- refer to bookmarked pages offering solutions. 
+
+```
+import discord
+import asyncio
+import nest_asyncio
+````
+
+```
+import asyncio
+import discord
+
+# Specify which events the client should listen to by creating an instance of the Intents class
+intents = discord.Intents().default()
+
+# Create an instance of the Client class and pass the `intents` argument to it
+client = discord.Client(intents=intents)
+
+
+
+@client.event
+async def on_ready():
+    # Get the text channel object
+    channel = client.get_channel("784442203187314689")
+
+    # Use the fetch_messages() method to get a list of messages
+    messages = await channel.fetch_messages(limit=100)
+
+    # Use a list comprehension to filter the messages
+    # messages = [message for message in messages if message.author.id == "784442203187314689" and "bounty" in message.content]
+
+    # Do something with the filtered list of messages
+    for message in messages:
+        print(message.content)
+        
+# async def main():
+#     # Start the client and connect it to the Discord API
+#     await client.start('NDY3MTI3OTYyMzc5MDkxOTY4.Gcfvgb.vz16ktx0kLWNuSCaTHCUNJ7gFa4UaPbo5lilh0')   
+    
+@bot.event
+async def on_message(message):
+    async for message in message.channel.history(limit=1):
+        print(message.content)
+
+# Get the current event loop
+loop = asyncio.get_event_loop()
+
+# Create a task that runs the `main()` coroutine in the current event loop
+task = loop.create_task(main())
+
+# Run the event loop until the task is complete, if the event loop is not already running
+if not loop.is_running():
+    loop.run_until_complete(task)
+# Run the client
+# client.run('[YOUR SECRET AUTH FOR DISC')
+bot.run(token, bot=False)
+
+
+```
+
+
+
+
+
+```
+
+TOKEN = ""
+
+# Set the client object
+intents = discord.Intents.default()
+client = discord.Client(intents=intents)
+
+
+# Set the words to watch for
+WATCH_WORDS = ["bounty", "flash bounty"]
+
+# Set the user IDs to watch for
+WATCH_USERS = ["Brendan Murray#3930"]
+
+# Set the notification message
+NOTIFICATION_MESSAGE = "Attention! One of the watch words was said in the channel."
+
+# Set the Discord channel ID
+CHANNEL_ID = "784442203187314689"
+
+@client.event
+async def on_message(message):
+    # Check if the message was sent in the specified channel
+    if message.channel.id == CHANNEL_ID:
+        # Check if the message was sent by one of the watched users
+        if message.author.id in WATCH_USERS:
+            # Get the current event loop
+            loop = asyncio.get_event_loop()
+
+            # Run the code in `asyncio.run()` using the current event loop
+            loop.run_until_complete(asyncio.run(
+                # Send the notification message
+                await message.channel.send(message.content)
+            ))
+        else:
+            # Check if the message contains any of the watch words
+            for word in WATCH_WORDS:
+                if word in message.content:
+                    # Get the current event loop
+                    loop = asyncio.get_event_loop()
+
+                    # Run the code in `asyncio.run()` using the current event loop
+                    loop.run_until_complete(
+                        # Send the entire message as the notification message
+                        message.channel.send(message.content)
+                    )
+                    
+print(message)
+
+
+
+async def randomquote(ctx):
+
+    def check(ctx):
+        return ctx.author.id == memberID
+
+    messages = await ctx.channel.history(limit=100, check=check).flatten()
+    await ctx.send(f"{random.choice(messages).content}")
+    
+    messages = [msg for msg in await ctx.channel.history(limit=10).flatten() if msg.author.id == memberID]
+```
+
+
+
+```
+memberID = "Brendan Murray#3930"
+
+async def randomquote(ctx):
+    messages = await ctx.channel.history(limit=10).flatten()
+    messages = [m for m in messages if m.author.id == memberID]
+    await ctx.send(f"{random.choice(messages).content}")
+ ```   
+    
+```    
+memberID = "Brendan Murray#3930"
+messages = []
+async for message in ctx.channel.history(limit=10):
+    if message.author.id == memberID:
+        messages += [message]
+```
+
+```
+import asyncio
+
+async def main():
+    print('hello')
+    await asyncio.sleep(1)
+    print('world')
+
+asyncio.run(main())
+```
+
+
+```
+# Set the Discord API token
+# TOKEN = ""
+secret token = ""
+
+
+# Set the client object
+client = discord.Client(intents=discord.Intents.all())
+
+# Set the words to watch for
+WATCH_WORDS = ["bounty", "flash bounty"]
+
+# Set the user IDs to watch for
+WATCH_USERS = ["Brendan Murray#3930",]
+
+# Set the notification message
+NOTIFICATION_MESSAGE = "Attention! One of the watch words was said in the channel."
+
+# Set the Discord channel ID
+CHANNEL_ID = "784442203187314689"
+
+@client.event
+async def on_message():
+  # Check if the message was sent in the specified channel
+  if message.channel.id == CHANNEL_ID:
+    # Check if the message was sent by one of the watched users
+    if message.author.id in WATCH_USERS:
+      # Send the notification message
+      await message.channel.send(NOTIFICATION_MESSAGE)
+    else:
+      # Check if the message contains any of the watch words
+      for word in WATCH_WORDS:
+        if word in message.content:
+          # Send the notification message
+          await message.channel.send(NOTIFICATION_MESSAGE)
+
+# asyncio.run(on_message())
+
+await on_message(message)
+# client.run("TOKEN")
+```
+
+
+```
+import discord
+
+# Set the Discord API token
+TOKEN = ""
+
+# Set the client object
+client = discord.Client()
+
+# Set the user IDs to watch for
+WATCH_USERS = ["Brendan Murray#3930", "user_id_2"]
+
+# Set the notification message
+NOTIFICATION_MESSAGE = "Attention! One of the watched users has sent a message in the channel."
+
+# Set the Discord channel ID
+CHANNEL_ID = "784442203187314689"
+
+@client.event
+async def on_message(message):
+  # Check if the message was sent in the specified channel
+  if message.channel.id == CHANNEL_ID:
+    # Check if the message was sent by one of the watched users
+    if message.author.id in WATCH_USERS:
+      # Send the notification message
+      await message.channel.send(NOTIFICATION_MESSAGE)
+
+client.run(TOKEN)
+```
+
+```
+import discord
+from discord.ext import commands
+
+client = commands.Bot(command_prefix='!')
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+    if message.mentions:
+        for user in message.mentions:
+            if user == client.user:
+                # User was mentioned, do something
+                await message.channel.send('Hey, I was mentioned!')
+                break
+
+    if 'word' in message.content:
+        # Word was mentioned, do something
+        await message.channel.send('Hey, the word "word" was mentioned!')
+
+client.run('TOKEN')
+
+
+
+import discord
+from discord.ext import commands
+
+client = commands.Bot(command_prefix='!')
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+    if message.mentions:
+        for user in message.mentions:
+            if user.name == 'Brendan Murray' and user.discriminator == '3930' and message.channel.id == '784442203187314689':
+                # User was mentioned, do something
+                await message.channel.send('Hey, Brendan Murray was mentioned in channel 784442203187314689!')
+                break
+
+    if 'bounty' in message.content:
+        # Word was mentioned, do something
+        await message.channel.send('Hey, the word "bounty" was mentioned!')
+
+client.run('YOUR_BOT_TOKEN_HERE')
+```
+
+```
+import discord
+from discord.ext import commands
+
+intents = discord.Intents.default()
+client = discord.Client(intents=intents)
+
+# client = commands.Bot(command_prefix='!')
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+    if message.mentions:
+        for user in message.mentions:
+            if user.name == 'Brendan Murray' and user.discriminator == '3930' and message.channel.id == '784442203187314689':
+                if 'bounty' in message.content:
+                    # User and word were mentioned, do something
+                    await message.channel.send('Hey, Brendan Murray mentioned the word "bounty" in channel 784442203187314689!')
+                    break
+
+client.run('TOKEN')
+```
+
+
+```
+
+import discord
+from discord.ext import commands
+
+intents = discord.Intents.default()
+client = discord.Client(intents=intents)
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+    if message.mentions:
+        for user in message.mentions:
+            if user.name == 'Brendan Murray' and user.discriminator == '3930' and message.channel.id == '784442203187314689':
+                if 'bounty' in message.content:
+                    # User and word were mentioned, do something
+                    await message.channel.send('Hey, Brendan Murray mentioned the word "bounty" in channel 784442203187314689!')
+                    break
+
+client.run('TOKEN')
+
+```
+
+```
+
+# Set the Discord API token
+TOKEN = "TOKEN"
+
+# Set the client object
+intents = discord.Intents.default()
+client = discord.Client(intents=intents)
+
+# Set the words to watch for
+WATCH_WORDS = ["bounty", "flash bounty"]
+
+# Set the user IDs to watch for
+WATCH_USERS = ["Brendan Murray#3930",]
+
+# Set the notification message
+NOTIFICATION_MESSAGE = "Attention! One of the watch words was said in the channel."
+
+# Set the Discord channel ID
+CHANNEL_ID = "784442203187314689"
+
+@client.event
+async def on_message(message):
+  # Check if the message was sent in the specified channel
+  if message.channel.id == CHANNEL_ID:
+    # Check if the message was sent by one of the watched users
+    if message.author.id in WATCH_USERS:
+      # Send the notification message
+      await message.channel.send(NOTIFICATION_MESSAGE)
+    else:
+      # Check if the message contains any of the watch words
+      for word in WATCH_WORDS:
+        if word in message.content:
+          # Send the notification message
+          await message.channel.send(NOTIFICATION_MESSAGE)
+        
+client.run(TOKEN)
+
+
+import discord
+from discord.ext import commands
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+client = discord.Client(intents=intents)
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+    if message.mentions:
+        for user in message.mentions:
+            if user.name == 'Brendan Murray' and user.discriminator == '3930' and message.channel.id == '784442203187314689':
+                if 'bounty' in message.content:
+                    # User and word were mentioned, do something
+                    await message.channel.send('Hey, Brendan Murray mentioned the word "bounty" in channel 784442203187314689!')
+                    break
+
+client.run('TOKEN')
+```
+
+
+```
+import discord
+import pandas as pd
+
+client = discord.Client()
+guild = discord.Guild
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+    elif message.content.startswith('_'):
+
+        cmd = message.content.split()[0].replace("_","")
+        if len(message.content.split()) > 1:
+ ```           parameters = message.content.split()[1:]
+            
+            
+            
+ ```           
+async def test(name):
+    await asyncio.sleep(5)
+    return f"hello {name}"
+```    
+    
+  ```  
+  TOKEN = "TOKEN"
+
+# Set the client object
+intents = discord.Intents.default()
+client = discord.Client(intents=intents)
+
+
+# Set the words to watch for
+WATCH_WORDS = ["bounty", "flash bounty"]
+
+# Set the user IDs to watch for
+WATCH_USERS = ["Brendan Murray#3930"]
+
+# Set the notification message
+NOTIFICATION_MESSAGE = "Attention! One of the watch words was said in the channel."
+
+# Set the Discord channel ID
+CHANNEL_ID = "784442203187314689"
+
+@client.event
+async def on_message(message):
+    # Check if the message was sent in the specified channel
+    if message.channel.id == CHANNEL_ID:
+        # Check if the message was sent by one of the watched users
+        if message.author.id in WATCH_USERS:
+            # Get the current event loop
+            loop = asyncio.get_event_loop()
+
+            # Run the code in `asyncio.run()` using the current event loop
+            loop.run_until_complete(asyncio.run(
+                # Send the notification message
+                await message.channel.send(message.content)
+            ))
+        else:
+            # Check if the message contains any of the watch words
+            for word in WATCH_WORDS:
+                if word in message.content:
+                    # Get the current event loop
+                    loop = asyncio.get_event_loop()
+
+                    # Run the code in `asyncio.run()` using the current event loop
+                    loop.run_until_complete(
+                        # Send the entire message as the notification message
+                        message.channel.send(message.content)
+                    )
+                    
+print(message)
+
+
+
+run_async(test, "user") 
+```
